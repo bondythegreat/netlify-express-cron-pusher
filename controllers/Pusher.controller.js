@@ -9,6 +9,8 @@ const pusher = new Pusher({
   useTLS: true,
 });
 
+var task;
+
 async function index(req, res, next) {
   // res.render("index", {
   //   title: "Running pusher+websocket in the background....",
@@ -21,7 +23,7 @@ async function index(req, res, next) {
   });
 
   try {
-    cron.schedule("* * * * *", () => {
+    task = cron.schedule("* * * * *", () => {
       // send earning, random 5-20
       const now = Date.now();
       const earning = parseInt(Math.random() * (20 - 5) + 5);
@@ -39,6 +41,20 @@ async function index(req, res, next) {
   }
 }
 
+async function stop(req, res, next) {
+  res.json({
+    message: "pusher+websocket is stop",
+    author: "bondan@senta.nu",
+  });
+
+  try {
+    task.stop();
+  } catch (err) {
+    console.error(`Error while getting programming languages`, err.message);
+    next(err);
+  }
+}
 module.exports = {
   index,
+  stop,
 };

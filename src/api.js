@@ -6,6 +6,7 @@ const app = express();
 
 const router = express.Router();
 router.get("/", pusherController.index);
+router.get("/stop", pusherController.stop);
 router.get("/about", (req, res) => {
   res.json({ msg: "hello about" });
 });
