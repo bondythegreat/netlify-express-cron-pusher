@@ -22,6 +22,16 @@ async function index(req, res, next) {
     author: "bondan@senta.nu",
   });
 
+  // send earning, random 5-20
+  const now = Date.now();
+  const earning = parseInt(Math.random() * (20 - 5) + 5);
+
+  // pusher send here..
+  pusher.trigger("my-channel", "my-event", {
+    datetime: now,
+    earning,
+  });
+
   try {
     task = cron.schedule("* * * * *", () => {
       // send earning, random 5-20
