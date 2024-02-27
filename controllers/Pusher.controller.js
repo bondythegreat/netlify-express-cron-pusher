@@ -33,13 +33,13 @@ async function index(req, res, next) {
   });
 
   try {
-    task = cron.schedule("* * * * *", () => {
+    task = cron.schedule("* * * * *", async () => {
       // send earning, random 5-20
       const now = Date.now();
       const earning = parseInt(Math.random() * (20 - 5) + 5);
 
       // pusher send here..
-      pusher.trigger("my-channel", "my-event", {
+      await pusher.trigger("my-channel", "my-event", {
         datetime: now,
         earning,
       });
